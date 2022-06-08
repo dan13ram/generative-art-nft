@@ -114,30 +114,48 @@ def select_index(cum_rarities, rand):
     # Should not reach here if everything works okay
     return None
 
-
 # Generate a set of traits given rarities
 def generate_trait_set_from_config():
     
     trait_set = []
     trait_paths = []
     
-    for layer in CONFIG:
+    for index, layer in enumerate(CONFIG):
         # Extract list of traits and cumulative rarity weights
         traits, cum_rarities = layer['traits'], layer['cum_rarity_weights']
 
-        # Generate a random number
-        rand_num = random.random()
+        if index == 1 and layer['name'] == 'rare' and layer['map'] is not None:
+            bg_trait = trait_set[0]
 
-        # Select an element index based on random number and cumulative rarity weights
-        idx = select_index(cum_rarities, rand_num)
+            # Generate a random number
+            rand_num = random.randint(1, 100)
 
-        # Add selected trait to trait set
-        trait_set.append(traits[idx])
+            if rand_num == 1:
+                rare_trait = layer['map'][bg_trait]
+                print()
+                print('Selecting Rare Trait -', rare_trait, ' for BG Trait -', bg_trait)
+                print()
+                # Add selected trait to trait set
+                trait_set.append(rare_trait)
 
-        # Add trait path to trait paths if the trait has been selected
-        if traits[idx] is not None:
-            trait_path = os.path.join(layer['directory'], traits[idx])
-            trait_paths.append(trait_path)
+                # Add trait path to trait paths if the trait has been selected
+                trait_path = os.path.join(layer['directory'], rare_trait)
+                trait_paths.append(trait_path)
+
+        else:
+            # Generate a random number
+            rand_num = random.random()
+
+            # Select an element index based on random number and cumulative rarity weights
+            idx = select_index(cum_rarities, rand_num)
+
+            # Add selected trait to trait set
+            trait_set.append(traits[idx])
+
+            # Add trait path to trait paths if the trait has been selected
+            if traits[idx] is not None:
+                trait_path = os.path.join(layer['directory'], traits[idx])
+                trait_paths.append(trait_path)
         
     return trait_set, trait_paths
 

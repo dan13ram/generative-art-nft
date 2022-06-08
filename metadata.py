@@ -91,7 +91,7 @@ def main():
         item_json = deepcopy(BASE_JSON)
         
         # Append number to base name
-        item_json['name'] = item_json['name'] + str(idx)
+        item_json['name'] = item_json['name'] + + '-' + str(idx).zfill(zfill_count)
 
         # Append image PNG file name to base image path
         item_json['image'] = item_json['image'] + '/' + str(idx).zfill(zfill_count) + '.png'
