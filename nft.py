@@ -141,6 +141,8 @@ def generate_trait_set_from_config():
                 # Add trait path to trait paths if the trait has been selected
                 trait_path = os.path.join(layer['directory'], rare_trait)
                 trait_paths.append(trait_path)
+            else:
+                trait_set.append(None)
 
         else:
             # Generate a random number
@@ -173,6 +175,8 @@ def generate_images(edition, count, drop_dup=True):
 
     # Will require this to name final images as 000, 001,...
     zfill_count = len(str(count - 1))
+    # we are making 8888
+    zfill_count = 4
     
     # Create output directory if it doesn't exist
     if not os.path.exists(op_path):

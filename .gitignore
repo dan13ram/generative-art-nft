@@ -1,3 +1,4 @@
 assets
 backup
 output
+__pycache__/*
